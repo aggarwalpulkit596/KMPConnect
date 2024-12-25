@@ -15,10 +15,23 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+        macosX64(),
+        macosArm64(),
+        tvosX64(),
+        tvosArm64(),
+        tvosSimulatorArm64(),
+    )
+        .forEach {
+            it.binaries.framework {
+                baseName = "KMPConnect"
+                isStatic = true
+            }
+        }
     
     jvm()
     
@@ -40,9 +53,13 @@ kotlin {
     }
     
     sourceSets {
-        commonMain.dependencies {
-            // put your Multiplatform dependencies here
+        commonMain.dependencies { implementation(libs.kotlinx.coroutines.core) }
+        androidMain.dependencies {
+            implementation(libs.androidx.appcompat)
+            implementation(libs.android.startup)
         }
+
+
     }
 }
 
